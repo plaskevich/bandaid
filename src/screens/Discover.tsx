@@ -1,46 +1,26 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import MusicianCard from 'components/MusicianCard';
 import { ScrollView } from 'react-native';
-
-const musicians = [
-  {
-    id: '1',
-    name: 'Alex',
-    instruments: ['guitar'],
-    genres: ['rock', 'death metal', 'pop punk', 'cold wave'],
-    location: 'Berlin',
-  },
-  {
-    id: '2',
-    name: 'John',
-    instruments: ['bass', 'guitar'],
-    genres: ['punk', 'rock'],
-    location: 'London',
-  },
-  {
-    id: '3',
-    name: 'Kenan',
-    instruments: ['drums', 'piano'],
-    genres: ['hip-hop'],
-    location: 'New-York',
-  },
-  {
-    id: '4',
-    name: 'Elisabeth',
-    instruments: ['voice'],
-    genres: ['jazz'],
-    location: 'Berlin',
-  },
-  {
-    id: '5',
-    name: 'Sam',
-    instruments: ['piano'],
-    genres: ['classic'],
-    location: 'Prague',
-  },
-];
+import { db } from '../../firebase';
+import { collection, query, getDocs } from 'firebase/firestore';
 
 const Discover = () => {
+  const [musicians, setMusicians] = useState<any[]>([]);
+  const getMusicians = async () => {
+    const q = query(collection(db, 'musician'));
+    const musicians = await getDocs(q);
+    return musicians;
+  };
+
+  useEffect(() => {
+    getMusicians();
+    return () => {
+      musicians.forEach((doc) => {
+        console.log(doc.data());
+        setMusicians((prev) => [...prev, doc.data()]);
+      });
+    };
+  }, []);
   return (
     <ScrollView className='px-3 py-3 bg-[#F6F6F4] border-t-2 border-[#131316]'>
       {musicians.map((musician) => (

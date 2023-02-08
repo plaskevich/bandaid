@@ -7,7 +7,7 @@ import Discover from './screens/Discover';
 import Match from 'screens/Match';
 import Chats from 'screens/Chats';
 import Profile from 'screens/Profile';
-import GlyphNeue from './icons/neue/GlyphNeue';
+import GlyphNeue from './assets/icons/neue/GlyphNeue';
 import { StatusBar } from 'react-native';
 import {
   useFonts,
@@ -24,9 +24,8 @@ const Tab = createBottomTabNavigator();
 
 export default function App() {
   const [fontsLoaded] = useFonts({
-    Glyph: require('./icons/main/Glyph.ttf'),
-    Music: require('./icons/music/Music.ttf'),
-    GlyphNeue: require('./icons/neue/GlyphNeue.ttf'),
+    Music: require('./assets/icons/music/Music.ttf'),
+    GlyphNeue: require('./assets/icons/neue/GlyphNeue.ttf'),
     Rubik_300Light,
     Rubik_400Regular,
     Rubik_500Medium,
@@ -59,7 +58,7 @@ export default function App() {
                   }
                 };
                 const iconName = getIconName();
-                return <GlyphNeue name={iconName} size={30} color={color} />;
+                return <GlyphNeue name={iconName} size={28} color={color} />;
               },
               // tabBarShowLabel: false,
               tabBarActiveTintColor: '#F6F6F4',
@@ -77,7 +76,6 @@ export default function App() {
               headerStyle: {
                 backgroundColor: '#F6F6F4',
               },
-              // headerTitleAlign: 'left',
               headerTitleStyle: {
                 color: '#131316',
                 fontSize: 25,

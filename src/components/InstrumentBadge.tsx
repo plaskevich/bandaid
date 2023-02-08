@@ -1,6 +1,6 @@
 import { View, Text } from 'react-native';
 import React from 'react';
-import Music from '../icons/music/Music';
+import Music from '../assets/icons/music/Music';
 
 const getBadgeColor = (instrument: string) => {
   switch (instrument) {
@@ -40,12 +40,12 @@ const InstrumentBadge = ({ instrument }: { instrument: string }) => {
   return (
     <View
       style={{ backgroundColor: badgeColor }}
-      className='py-1 px-3 rounded-2xl flex-row justify-center items-center mr-2 border border-[#131316]'
+      className='py-1 px-3 rounded-2xl flex-row justify-center items-center mr-1 mb-1 border border-[#131316]'
     >
-      <Music name={instrumentIcon} size={15} color='#131316' className='mr-1' />
+      <Music name={instrumentIcon} size={13} color='#131316' className='mr-1' />
       <Text
         style={{ fontFamily: 'Rubik_500Medium' }}
-        className='text-[#131316] text-[15px] capitalize'
+        className='text-[#131316] text-[13px] capitalize'
       >
         {instrument}
       </Text>
