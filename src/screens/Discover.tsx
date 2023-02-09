@@ -6,21 +6,24 @@ import { collection, query, getDocs } from 'firebase/firestore';
 
 const Discover = () => {
   const [musicians, setMusicians] = useState<any[]>([]);
-  const getMusicians = async () => {
-    const q = query(collection(db, 'musician'));
-    const musicians = await getDocs(q);
-    return musicians;
-  };
 
   useEffect(() => {
-    getMusicians();
-    return () => {
-      musicians.forEach((doc) => {
-        console.log(doc.data());
-        setMusicians((prev) => [...prev, doc.data()]);
-      });
+    setMusicians([]);
+    const getMusicians = async () => {
+      try {
+        const allMusicians = await getDocs(query(collection(db, 'musicians')));
+        allMusicians.forEach((doc) => {
+          const musicianData = doc.data();
+          musicianData.id = doc.id;
+          setMusicians((prev) => [...prev, musicianData]);
+        });
+      } catch (error) {
+        console.log(error);
+      }
     };
+    getMusicians();
   }, []);
+
   return (
     <ScrollView className='px-3 py-3 bg-[#F6F6F4] border-t-2 border-[#131316]'>
       {musicians.map((musician) => (
