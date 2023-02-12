@@ -1,56 +1,50 @@
-import { View, Text } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
+import Music from '~assets/icons/music/Music';
+import { color, instrumentColor } from 'theme';
 import React from 'react';
-import Music from '../assets/icons/music/Music';
 
-const getBadgeColor = (instrument: string) => {
-  switch (instrument) {
-    case 'guitar':
-      return '#88B0F7';
-    case 'voice':
-      return '#58C09C';
-    case 'drums':
-      return '#C19CF9';
-    case 'bass':
-      return '#FFE483';
-    case 'piano':
-      return '#FF8C8C';
-    default:
-      return '#F6F6F4';
-  }
-};
+export type Instrument = 'guitar' | 'voice' | 'drums' | 'bass' | 'piano';
 
-const getInstrumentIcon = (instrument: string) => {
-  switch (instrument) {
-    case 'guitar':
-      return 'Music-guitar';
-    case 'voice':
-      return 'Music-voice-recorder';
-    case 'drums':
-      return 'Music-drum-set';
-    case 'bass':
-      return 'Music-guitar-strings';
-    case 'piano':
-      return 'Music-piano';
-  }
-};
-
-const InstrumentBadge = ({ instrument }: { instrument: string }) => {
-  const badgeColor = getBadgeColor(instrument);
-  const instrumentIcon = getInstrumentIcon(instrument);
+const InstrumentBadge = ({ instrument }: { instrument: Instrument }) => {
   return (
     <View
-      style={{ backgroundColor: badgeColor }}
-      className='py-1 px-3 rounded-2xl flex-row justify-center items-center mr-1 mb-1 border border-[#131316]'
+      style={[
+        style.badge,
+        {
+          backgroundColor:
+            instrumentColor[instrument as keyof typeof instrumentColor],
+        },
+      ]}
     >
-      <Music name={instrumentIcon} size={13} color='#131316' className='mr-1' />
-      <Text
-        style={{ fontFamily: 'Rubik_500Medium' }}
-        className='text-[#131316] text-[13px] capitalize'
-      >
-        {instrument}
-      </Text>
+      <Music
+        name={instrument}
+        size={13}
+        color={color.black}
+        style={{ marginRight: 4 }}
+      />
+      <Text style={style.badgeText}>{instrument}</Text>
     </View>
   );
 };
 
+const style = StyleSheet.create({
+  badge: {
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: color.black,
+    paddingVertical: 4,
+    paddingHorizontal: 10,
+    marginRight: 4,
+    marginBottom: 4,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  badgeText: {
+    fontFamily: 'Rubik_500Medium',
+    fontSize: 13,
+    color: color.black,
+    textTransform: 'capitalize',
+  },
+});
 export default InstrumentBadge;

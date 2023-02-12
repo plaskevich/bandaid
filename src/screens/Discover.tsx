@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import MusicianCard from 'components/MusicianCard';
-import { ScrollView } from 'react-native';
-import { db } from '../../firebase';
+import MusicianCard, { Musician } from '~components/MusicianCard';
+import { ScrollView, StyleSheet } from 'react-native';
+import { db } from '~utils/firebase';
 import { collection, query, getDocs } from 'firebase/firestore';
+import { color } from 'theme';
+import React, { useState, useEffect } from 'react';
 
 const Discover = () => {
-  const [musicians, setMusicians] = useState<any[]>([]);
+  const [musicians, setMusicians] = useState<Musician[]>([]);
 
   useEffect(() => {
     setMusicians([]);
@@ -13,9 +14,15 @@ const Discover = () => {
       try {
         const allMusicians = await getDocs(query(collection(db, 'musicians')));
         allMusicians.forEach((doc) => {
-          const musicianData = doc.data();
-          musicianData.id = doc.id;
-          setMusicians((prev) => [...prev, musicianData]);
+          const musician: Musician = {
+            id: doc.id,
+            name: doc.data().name,
+            instruments: doc.data().instruments,
+            genres: doc.data().genres,
+            location: doc.data().location,
+            image: doc.data().image,
+          };
+          setMusicians((prev) => [...prev, musician]);
         });
       } catch (error) {
         console.log(error);
@@ -25,12 +32,23 @@ const Discover = () => {
   }, []);
 
   return (
-    <ScrollView className='px-3 py-3 bg-[#F6F6F4] border-t-2 border-[#131316]'>
+    <ScrollView style={style.container}>
       {musicians.map((musician) => (
         <MusicianCard key={musician.id} musician={musician} />
       ))}
     </ScrollView>
   );
 };
+
+const style = StyleSheet.create({
+  container: {
+    paddingHorizontal: 12,
+    backgroundColor: color.white,
+    borderTopWidth: 2,
+    borderTopColor: color.black,
+    flex: 1,
+    columnGap: 12,
+  },
+});
 
 export default Discover;

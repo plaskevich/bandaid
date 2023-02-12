@@ -1,13 +1,14 @@
-import { View, Text, Image } from 'react-native';
+import { View, Text, Image, StyleSheet } from 'react-native';
 import React from 'react';
-import InstrumentBadge from './InstrumentBadge';
+import InstrumentBadge, { Instrument } from './InstrumentBadge';
 import GenreBadge from './GenreBadge';
-import GlyphNeue from '../assets/icons/neue/GlyphNeue';
+import GlyphNeue from '~assets/icons/neue/GlyphNeue';
+import { color } from 'theme';
 
 export type Musician = {
   id?: string;
   name: string;
-  instruments: string[];
+  instruments: Instrument[];
   genres: string[];
   location: string;
   image?: string;
@@ -30,40 +31,30 @@ const getRandomAvatar = () => {
 
 const MusicianCard = ({ musician }: MusicianCardProps) => {
   return (
-    <View className='mb-3 py-2 px-2 rounded-2xl flex flex-row space-x-4 border-2'>
-      <View className='flex-col items-center space-y-2 pt-1'>
+    <View style={style.musicianCard}>
+      <View style={style.leftContent}>
         {!musician.image && (
-          <Image
-            source={getRandomAvatar()}
-            className='w-16 h-16 rounded-full'
-          />
+          <Image style={style.image} source={getRandomAvatar()} />
         )}
-        <View className='flex-row items-center justify-center space-x-0.5 w-20'>
-          <GlyphNeue name='neue-location' size={12} color='#131316' />
-          <Text
-            style={{ fontFamily: 'Rubik_500Medium' }}
-            className='text-[#131316] text-xs'
-          >
-            {musician.location}
-          </Text>
+        <View style={style.locationContainer}>
+          <GlyphNeue
+            style={{ marginRight: 2 }}
+            name='neue-location'
+            size={11}
+            color={color.black}
+          />
+          <Text style={style.locationText}>{musician.location}</Text>
         </View>
       </View>
 
-      <View className='flex space-y-2'>
-        <View className='flex flex-row items-baseline space-x-2'>
-          <Text
-            style={{ fontFamily: 'Rubik_600SemiBold' }}
-            className='text-[#131316] text-xl font-semibold'
-          >
-            {musician.name}
-          </Text>
-        </View>
-        <View className='flex-row flex-wrap w-64'>
-          {musician.instruments.map((instrument) => (
-            <InstrumentBadge instrument={instrument} key={instrument} />
+      <View style={style.rightContent}>
+        <Text style={style.name}>{musician.name}</Text>
+        <View style={style.badgeContainer}>
+          {musician.instruments.map((instrument: Instrument, index) => (
+            <InstrumentBadge instrument={instrument} key={index} />
           ))}
         </View>
-        <View className='flex-row flex-wrap w-64'>
+        <View style={style.badgeContainer}>
           {musician.genres.map((genre) => (
             <GenreBadge genre={genre} key={genre} />
           ))}
@@ -72,5 +63,57 @@ const MusicianCard = ({ musician }: MusicianCardProps) => {
     </View>
   );
 };
+
+const style = StyleSheet.create({
+  musicianCard: {
+    marginTop: 12,
+    padding: 8,
+    borderRadius: 16,
+    borderWidth: 2,
+    borderColor: color.black,
+    flexDirection: 'row',
+  },
+  leftContent: {
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingVertical: 4,
+    marginRight: 12,
+    width: 80,
+    height: 95,
+  },
+  image: {
+    width: 64,
+    height: 64,
+    borderRadius: 100,
+  },
+  locationContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 80,
+  },
+  locationText: {
+    fontFamily: 'Rubik_500Medium',
+    fontSize: 11,
+    color: color.black,
+  },
+  rightContent: {
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    justifyContent: 'space-between',
+  },
+  name: {
+    fontFamily: 'Rubik_600SemiBold',
+    fontSize: 21,
+    color: color.black,
+  },
+  badgeContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    width: 260,
+    marginTop: 6,
+  },
+});
 
 export default MusicianCard;

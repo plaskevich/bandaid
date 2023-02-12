@@ -1,1 +1,9 @@
-{ "Music-drum-set": 59905, "Music-drums": 59906, "Music-guitar-strings": 59907, "Music-guitar": 59908, "Music-piano": 59909, "Music-saxophone": 59910, "Music-voice-recorder": 59911}
+{
+  "drum-set": 59905,
+  "drums": 59906,
+  "bass": 59907,
+  "guitar": 59908,
+  "piano": 59909,
+  "saxophone": 59910,
+  "voice": 59911
+}

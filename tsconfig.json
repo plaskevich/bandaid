@@ -1,19 +1,22 @@
 {
   "compilerOptions": {
-    "baseUrl": "src",
+    "baseUrl": ".",
     "paths": {
-      "components": ["src/components/*"],
-      "screens": ["src/screens/*"]
+      "~components/*": ["src/components/*"],
+      "~screens/*": ["src/screens/*"],
+      "~assets/*": ["src/assets/*"],
+      "~utils/*": ["src/utils/*"],
+      "theme": ["./src/theme"]
     },
     "target": "es2016",
     "jsx": "react-native",
     "module": "commonjs",
-    "types": ["react-native", "styled-components-react-native"],
+    "types": ["react-native"],
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "skipLibCheck": true
   },
   "extends": "expo/tsconfig.base",
-  "includes": ["src"]
+  "exclude": ["node_modules"]
 }

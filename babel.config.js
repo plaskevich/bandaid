@@ -3,15 +3,28 @@ module.exports = function (api) {
   return {
     presets: ['babel-preset-expo'],
     plugins: [
-      'nativewind/babel',
       [
         'module-resolver',
         {
-          root: ['./src'],
           alias: {
-            components: './src/components',
-            screens: './src/screens',
+            '~components': './src/components',
+            '~screens': './src/screens',
+            '~utils': './src/utils',
+            '~assets': './src/assets',
+            theme: './src/theme',
           },
+          extensions: ['.js', '.jsx', '.ts', '.tsx'],
+        },
+      ],
+      [
+        'module:react-native-dotenv',
+        {
+          moduleName: '@env',
+          path: '.env',
+          blacklist: null,
+          whitelist: null,
+          safe: false,
+          allowUndefined: true,
         },
       ],
     ],

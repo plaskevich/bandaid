@@ -1,13 +1,13 @@
 import React from 'react';
-import 'nativewind/types.d';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import Discover from './screens/Discover';
-import Match from 'screens/Match';
-import Chats from 'screens/Chats';
-import Profile from 'screens/Profile';
+import Auth from '~screens/Auth';
+import Discover from '~screens/Discover';
+import Match from '~screens/Match';
+import Chats from '~screens/Chats';
+import Profile from '~screens/Profile';
 import GlyphNeue from './assets/icons/neue/GlyphNeue';
 import { StatusBar } from 'react-native';
 import {
@@ -20,11 +20,11 @@ import {
   Rubik_800ExtraBold,
   Rubik_900Black,
 } from '@expo-google-fonts/rubik';
-import Start from 'screens/Start';
+import { color, font } from './theme';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
-const startPage = false;
+const startPage = true;
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -52,7 +52,7 @@ export default function App() {
                 headerShown: false,
               }}
             >
-              <Stack.Screen name='Start' component={Start} />
+              <Stack.Screen name='Auth' component={Auth} />
             </Stack.Navigator>
           ) : (
             <Tab.Navigator
@@ -73,26 +73,25 @@ export default function App() {
                   const iconName = getIconName();
                   return <GlyphNeue name={iconName} size={28} color={color} />;
                 },
-                tabBarActiveTintColor: '#F6F6F4',
-                tabBarInactiveTintColor: '#717279',
+                tabBarActiveTintColor: color.white,
+                tabBarInactiveTintColor: color.gray,
                 tabBarStyle: {
-                  backgroundColor: '#131316',
-                  borderTopColor: '#131316',
+                  backgroundColor: color.black,
+                  borderTopColor: color.black,
                 },
                 tabBarLabelStyle: {
-                  fontFamily: 'Rubik_500Medium',
+                  fontFamily: font.medium,
                   fontSize: 10,
                 },
                 headerShown: !startPage,
                 headerShadowVisible: false,
-                headerTintColor: 'red',
                 headerStyle: {
-                  backgroundColor: '#F6F6F4',
+                  backgroundColor: color.white,
                 },
                 headerTitleStyle: {
-                  color: '#131316',
+                  color: color.black,
                   fontSize: 25,
-                  fontFamily: 'Rubik_700Bold',
+                  fontFamily: font.bold,
                 },
               })}
             >
