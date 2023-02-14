@@ -1,10 +1,13 @@
-import { ScrollView, Text } from 'react-native';
+import { ScrollView, Text, Pressable } from 'react-native';
 import React from 'react';
+import { signOut } from '~utils/auth';
 
 const Profile = () => {
   return (
     <ScrollView>
-      <Text>Profile</Text>
+      <Pressable onPress={signOut}>
+        <Text>Logout</Text>
+      </Pressable>
     </ScrollView>
   );
 };

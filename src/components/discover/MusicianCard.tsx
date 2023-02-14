@@ -2,7 +2,7 @@ import { View, Text, Image, StyleSheet } from 'react-native';
 import React from 'react';
 import InstrumentBadge, { Instrument } from './InstrumentBadge';
 import GenreBadge from './GenreBadge';
-import GlyphNeue from '~assets/icons/neue/GlyphNeue';
+import Icon from '~assets/icons/main/Icon';
 import { color } from 'theme';
 
 export type Musician = {
@@ -20,11 +20,11 @@ type MusicianCardProps = {
 
 const getRandomAvatar = () => {
   const avatars = [
-    require('../assets/avatars/avatar-green.png'),
-    require('../assets/avatars/avatar-blue.png'),
-    require('../assets/avatars/avatar-purple.png'),
-    require('../assets/avatars/avatar-red.png'),
-    require('../assets/avatars/avatar-yellow.png'),
+    require('../../assets/avatars/avatar-green.png'),
+    require('../../assets/avatars/avatar-blue.png'),
+    require('../../assets/avatars/avatar-purple.png'),
+    require('../../assets/avatars/avatar-red.png'),
+    require('../../assets/avatars/avatar-yellow.png'),
   ];
   return avatars[Math.floor(Math.random() * avatars.length)];
 };
@@ -37,9 +37,9 @@ const MusicianCard = ({ musician }: MusicianCardProps) => {
           <Image style={style.image} source={getRandomAvatar()} />
         )}
         <View style={style.locationContainer}>
-          <GlyphNeue
+          <Icon
             style={{ marginRight: 2 }}
-            name='neue-location'
+            name='location'
             size={11}
             color={color.black}
           />

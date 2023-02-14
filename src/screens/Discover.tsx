@@ -1,4 +1,4 @@
-import MusicianCard, { Musician } from '~components/MusicianCard';
+import MusicianCard, { Musician } from '~components/discover/MusicianCard';
 import { ScrollView, StyleSheet } from 'react-native';
 import { db } from '~utils/firebase';
 import { collection, query, getDocs } from 'firebase/firestore';

@@ -1,17 +1,31 @@
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { onAuthStateChanged, User } from 'firebase/auth';
+import React from 'react';
+import { auth } from '~utils/firebase';
 
-export const signIn = (email: string, password: string) => {
-  //   const email = 'jopa@dot.com';
-  //   const password = 'jopahui';
+export function useAuthentication() {
+  const [user, setUser] = React.useState<User>();
 
-  const auth = getAuth();
-  signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      // Signed in
-      const user = userCredential.user;
-      console.log(user);
-    })
-    .catch((error) => {
-      console.log(error);
+  React.useEffect(() => {
+    const unsubscribeFromAuthStatuChanged = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUser(user);
+      } else {
+        setUser(undefined);
+      }
     });
+
+    return unsubscribeFromAuthStatuChanged;
+  }, []);
+
+  return {
+    user,
+  };
+}
+
+export const signOut = async () => {
+  try {
+    await auth.signOut();
+  } catch (error) {
+    console.log(error);
+  }
 };

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -8,7 +8,7 @@ import Discover from '~screens/Discover';
 import Match from '~screens/Match';
 import Chats from '~screens/Chats';
 import Profile from '~screens/Profile';
-import GlyphNeue from './assets/icons/neue/GlyphNeue';
+import Icon from '~assets/icons/main/Icon';
 import { StatusBar } from 'react-native';
 import {
   useFonts,
@@ -21,15 +21,16 @@ import {
   Rubik_900Black,
 } from '@expo-google-fonts/rubik';
 import { color, font } from './theme';
+import { useAuthentication } from '~utils/auth';
+import { RootTabParamList, RootStackParamList } from '~utils/types';
 
-const Tab = createBottomTabNavigator();
-const Stack = createNativeStackNavigator();
-const startPage = true;
+const Tab = createBottomTabNavigator<RootTabParamList>();
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function App() {
   const [fontsLoaded] = useFonts({
     Music: require('./assets/icons/music/Music.ttf'),
-    GlyphNeue: require('./assets/icons/neue/GlyphNeue.ttf'),
+    Icon: require('./assets/icons/main/Icon.ttf'),
     Rubik_300Light,
     Rubik_400Regular,
     Rubik_500Medium,
@@ -38,6 +39,14 @@ export default function App() {
     Rubik_800ExtraBold,
     Rubik_900Black,
   });
+  const { user } = useAuthentication();
+  const [showWelcomeScreen, setShowWelcomeScreen] = useState(false);
+
+  useEffect(() => {
+    if (user) {
+      setShowWelcomeScreen(false);
+    }
+  }, [user]);
 
   if (!fontsLoaded) {
     return;
@@ -46,7 +55,7 @@ export default function App() {
       <SafeAreaProvider>
         <NavigationContainer>
           <StatusBar barStyle='dark-content' />
-          {startPage ? (
+          {showWelcomeScreen ? (
             <Stack.Navigator
               screenOptions={{
                 headerShown: false,
@@ -58,20 +67,13 @@ export default function App() {
             <Tab.Navigator
               screenOptions={({ route }) => ({
                 tabBarIcon: ({ color }) => {
-                  const getIconName = () => {
-                    switch (route.name) {
-                      case 'Discover':
-                        return 'neue-adventures';
-                      case 'Match':
-                        return 'neue-sparkle';
-                      case 'Chats':
-                        return 'neue-messaging';
-                      case 'Profile':
-                        return 'neue-name';
-                    }
-                  };
-                  const iconName = getIconName();
-                  return <GlyphNeue name={iconName} size={28} color={color} />;
+                  return (
+                    <Icon
+                      name={route.name.toLowerCase()}
+                      size={28}
+                      color={color}
+                    />
+                  );
                 },
                 tabBarActiveTintColor: color.white,
                 tabBarInactiveTintColor: color.gray,
@@ -83,7 +85,6 @@ export default function App() {
                   fontFamily: font.medium,
                   fontSize: 10,
                 },
-                headerShown: !startPage,
                 headerShadowVisible: false,
                 headerStyle: {
                   backgroundColor: color.white,
@@ -96,9 +97,42 @@ export default function App() {
               })}
             >
               <Tab.Screen name='Discover' component={Discover} />
-              <Tab.Screen name='Match' component={Match} />
-              <Tab.Screen name='Chats' component={Chats} />
-              <Tab.Screen name='Profile' component={Profile} />
+              <Tab.Screen
+                name='Match'
+                component={Match}
+                listeners={() => ({
+                  tabPress: (e) => {
+                    if (!user) {
+                      e.preventDefault();
+                      setShowWelcomeScreen(true);
+                    }
+                  },
+                })}
+              />
+              <Tab.Screen
+                name='Chats'
+                component={Chats}
+                listeners={() => ({
+                  tabPress: (e) => {
+                    if (!user) {
+                      e.preventDefault();
+                      setShowWelcomeScreen(true);
+                    }
+                  },
+                })}
+              />
+              <Tab.Screen
+                name='Profile'
+                component={Profile}
+                listeners={() => ({
+                  tabPress: (e) => {
+                    if (!user) {
+                      e.preventDefault();
+                      setShowWelcomeScreen(true);
+                    }
+                  },
+                })}
+              />
             </Tab.Navigator>
           )}
         </NavigationContainer>
