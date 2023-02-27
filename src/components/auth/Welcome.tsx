@@ -3,17 +3,17 @@ import BigButton from '~components/common/BigButton';
 import React from 'react';
 import { color, font } from 'theme';
 
-type WelcomeScreenProps = {
+type WelcomeProps = {
   setContent: (content: string) => void;
 };
 
-const WelcomeScreen = ({ setContent }: WelcomeScreenProps) => {
+const Welcome = ({ setContent }: WelcomeProps) => {
   return (
     <View>
       <View>
         <Image
-          source={require('../../assets/img/skategirl.gif')}
-          style={styles.gif}
+          source={require('../../assets/img/welcome.png')}
+          style={styles.img}
         />
 
         <Text style={styles.title}>{"Let's get it started!"}</Text>
@@ -36,23 +36,23 @@ const WelcomeScreen = ({ setContent }: WelcomeScreenProps) => {
 };
 
 const styles = StyleSheet.create({
-  gif: {
-    transform: [{ scale: 0.6 }],
-    bottom: 120,
+  img: {
+    transform: [{ scale: 0.32 }],
+    bottom: 140,
   },
   title: {
     fontFamily: font.extraBold,
     color: color.black,
     fontSize: 32,
     textAlign: 'center',
-    bottom: 200,
+    bottom: 270,
   },
   btnsContainer: {
     alignItems: 'center',
     height: 120,
     justifyContent: 'space-between',
-    bottom: 120,
+    bottom: 130,
   },
 });
 
-export default WelcomeScreen;
+export default Welcome;
